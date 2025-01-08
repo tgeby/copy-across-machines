@@ -10,8 +10,9 @@ clients = {}  # Dictionary to map usernames to client sockets
 
 def handle_client(client_socket):
     try:
-        # Ask for a username
-        client_socket.send("Enter your username: ".encode('utf-8'))
+        # Receive a username
+        # The first thing the client does is send its username
+
         username = client_socket.recv(1024).decode('utf-8').strip()
     
         if username in clients:

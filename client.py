@@ -6,19 +6,23 @@ import pyperclip
 # Server configuration
 HOST = '127.0.0.1'  # Server IP address
 PORT = 37373        # Same port as server
+last_clipboard_content = pyperclip.paste()
 
 def receive_messages(client_socket):
+    global last_clipboard_content
     while True:
         try:
-            message = client_socket.recv(1024)
+            message = client_socket.recv(1024).decode('utf-8')
             if message:
+                print(f"Message received: {str(message)}")
                 pyperclip.copy(message)
+                last_clipboard_content = message
         except:
             print("Disconnected from server")
             break
 
 def send_messages(client_socket, target_user):
-    last_clipboard_content = pyperclip.paste()
+    global last_clipboard_content
     print(f"Chatting with {target_user}.")
     while True:
         time.sleep(1)  # Check every second
